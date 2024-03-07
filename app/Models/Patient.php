@@ -17,12 +17,11 @@ class Patient extends Model
         'date_of_birth', // Data de Nascimento
         'cpf', // CPF
         'cns', // CNS (Cartão Nacional de Saúde)
-        'address', // Endereço Completo
     ];
 
     public function address()
     {
-        return $this->belongsTo(Address::class);
+        return $this->hasOne(Address::class);
     }
 
 }

@@ -25,12 +25,12 @@ class AddressFactory extends Factory
     {
         return [
             'cep' => $this->faker->randomNumber(8),
-            'address' => $this->faker->streetAddress,
+            'street' => $this->faker->streetAddress,
             'number' => $this->faker->buildingNumber,
             'complement' => $this->faker->optional()->secondaryAddress,
             'neighborhood' => $this->faker->citySuffix,
             'city' => $this->faker->city,
-            'state' => $this->faker->stateAbbr,
+            'state' => $this->faker->stateAbbr
         ];
     }
 }

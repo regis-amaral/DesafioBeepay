@@ -12,16 +12,17 @@ class Address extends Model
     protected $fillable = [
         'id',
         'cep', // CEP
-        'address', // Endereço
+        'street', // Rua
         'number', // Número
         'complement', // Complemento
         'neighborhood', // Bairro
         'city', // Cidade
         'state', // Estado
+        'patient_id'
     ];
 
     public function patient()
     {
-        return $this->hasMany(Patient::class);
+        return $this->belongsTo(Patient::class);
     }
 }
