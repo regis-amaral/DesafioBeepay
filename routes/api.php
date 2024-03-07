@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PatientController;
+use \App\Http\Controllers\CepController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('patients', PatientController::class);
+
+Route::get('/search-cep/{cep}', [CepController::class, 'searchCep']);
