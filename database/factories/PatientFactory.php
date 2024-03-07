@@ -27,9 +27,9 @@ class PatientFactory extends Factory
     {
         return [
             'full_name' => $this->faker->name(),
-            'mother_name' => $this->faker->name(gender: 0),
+            'mother_name' => $this->faker->name(gender: 'female'),
             'date_of_birth' => $this->faker->dateTimeBetween('-100 years', 'now', null),
-            'cpf' => $this->faker->unique()->buildingNumber(),
+            'cpf' => $this->faker->unique()->cpf(),
             'cns' => $this->faker->unique()->buildingNumber(),
             'address_id' => Address::factory()->create()->id,
         ];
