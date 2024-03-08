@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class CnsRule implements Rule
+class CNS implements Rule
 {
     /**
      * Create a new rule instance.

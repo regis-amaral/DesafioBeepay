@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class CpfRule implements Rule
+class CPF implements Rule
 {
     /**
      * Create a new rule instance.
@@ -28,7 +28,7 @@ class CpfRule implements Rule
         // Remove todos os caracteres que não sejam dígitos
         $cpf = preg_replace('/[^0-9]/', '', $value);
 
-        // Verifica se o CpfRule tem 11 dígitos
+        // Verifica se o CPF tem 11 dígitos
         if (strlen($cpf) != 11) {
             return false;
         }
@@ -65,6 +65,6 @@ class CpfRule implements Rule
      */
     public function message()
     {
-        return 'O campo CpfRule não é válido.';
+        return 'O campo CPF não é válido.';
     }
 }
