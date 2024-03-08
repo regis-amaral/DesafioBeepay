@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientStoreRequest;
+use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\PatientResource;
 use App\Models\Address;
 use App\Models\Patient;
@@ -24,7 +25,7 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -54,7 +55,7 @@ class PatientController extends Controller
             DB::commit();
             return response()->json(['message' => 'Paciente criado com sucesso', 'data' => new PatientResource($patient)], 201);
 
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['message' => 'Erro ao criar paciente: ' . $e->getMessage()], 500);
         }
@@ -82,7 +83,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(PatientStoreRequest $request, $id)
+    public function update(PatientUpdateRequest $request, $id)
     {
         DB::beginTransaction();
         try{
