@@ -55,6 +55,7 @@ class ProcessPatientsCsvJob implements ShouldQueue
                 $importLog[] = [
                     'full_name' => $data['full_name'],
                     'cpf' => isset($data['cpf']) ? $data['cpf'] : '',
+                    'cns' => isset($data['cns']) ? $data['cns'] : '',
                     'errors' => $e->getMessage(),
                 ];
                 continue; // Skip to the next row
@@ -74,11 +75,10 @@ class ProcessPatientsCsvJob implements ShouldQueue
             DB::commit();
         } else {
             DB::rollback();
-            $this->failed();
+            // Save import log
+            $this->saveImportLog($importLog);
+            throw new \Exception('Erro na validação dos dados! Verifique o log gravado em ./storage/logs/import.logs');
         }
-
-        // Save import log
-        $this->saveImportLog($importLog);
     }
 
     /**
