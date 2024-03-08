@@ -45,6 +45,7 @@ class PatientController extends Controller
         DB::beginTransaction();
         try{
             $patient = new Patient();
+            $patient->fill($request->all());
             $patient->save();
 
             $address = new Address();
@@ -91,7 +92,7 @@ class PatientController extends Controller
             if (!$patient) {
                 return response()->json(['error' => 'Paciente não encontrado'], 404);
             }
-            $patient->fill();
+            $patient->fill($request->all());
             $patient->save();
 
             if (isset($request->address)) {

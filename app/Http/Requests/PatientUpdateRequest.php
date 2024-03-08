@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Validation\ValidationPatientMessages;
-use App\Rules\CNS;
-use App\Rules\CPF;
 use App\Services\PatientValidationService;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -39,10 +36,7 @@ class PatientUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return PatientValidationService::getRules() + [
-                'cpf' => ['required','string',new CPF()],
-                'cns' => ['required','string',new CNS()],
-            ];
+        return PatientValidationService::getRules($this->id);
     }
 
     public function failedValidation(Validator $validator)
@@ -56,6 +50,6 @@ class PatientUpdateRequest extends FormRequest
 
     public function messages(): array
     {
-        return ValidationPatientMessages::patientRequestMessages();
+        return PatientValidationService::getMessages();
     }
 }
