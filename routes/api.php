@@ -22,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('patients', PatientController::class);
 
 Route::get('/search-cep/{cep}', [CepController::class, 'searchCep']);
+
+Route::post('/patients/upload-csv', [PatientController::class, 'uploadCsv']);
+

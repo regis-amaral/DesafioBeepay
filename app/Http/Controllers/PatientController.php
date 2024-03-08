@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientStoreRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\PatientResource;
+use App\Jobs\ProcessPatientsCsvJob;
 use App\Models\Address;
 use App\Models\Patient;
 use Illuminate\Http\JsonResponse;
@@ -39,9 +40,8 @@ class PatientController extends Controller
      * @param PatientStoreRequest $request
      * @return JsonResponse
      */
-    public function store(PatientStoreRequest $request)
+    public function store(PatientStoreRequest $request): JsonResponse
     {
-
         DB::beginTransaction();
         try{
             $patient = new Patient();
@@ -67,7 +67,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $patient = Cache::remember('patient_'.$id, 3600, function () use ($id) {
             return Patient::findOrFail($id);
@@ -79,11 +79,11 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param PatientStoreRequest $request
+     * @param PatientUpdateRequest $request
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(PatientUpdateRequest $request, $id)
+    public function update(PatientUpdateRequest $request, $id): JsonResponse
     {
         DB::beginTransaction();
         try{
@@ -119,7 +119,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return void
      */
-    public function destroy($id)
+    public function destroy($id): void
     {
         $patient = Patient::find($id);
 
@@ -130,4 +130,20 @@ class PatientController extends Controller
         // Remove o paciente do cache
         Cache::forget('patient_' . $id);
     }
+
+    public function uploadCsv(Request $request): JsonResponse
+    {
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt|max:2048', // Assuming max file size is 2MB
+        ]);
+
+        // Salva o arquivo CSV e obtém o caminho do arquivo
+        $filePath = $request->file('csv_file')->store('csv_files');
+
+        // Enfileirar a job para processar a importação do CSV
+        ProcessPatientsCsvJob::dispatch($filePath);
+
+        return response()->json(['message' => 'Arquivo CSV enviado com sucesso. A importação está em andamento.']);
+    }
+
 }
