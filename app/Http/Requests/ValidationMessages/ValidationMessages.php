@@ -18,6 +18,7 @@ class ValidationMessages
             'date_of_birth.required' => 'O campo data de nascimento é obrigatório.',
             'date_of_birth.date' => 'O campo data de nascimento deve ser uma data válida.',
             'date_of_birth.after_or_equal' => 'O campo data de nascimento não pode ser anterior a ' . now()->subYears(150)->format('d/m/Y') . '.',
+            'date_of_birth.before' => 'O campo data de nascimento não pode ser maior que a data atual.',
 
             'cpf.required' => 'O campo CPF é obrigatório.',
             'cpf.string' => 'O campo CPF deve ser uma string.',

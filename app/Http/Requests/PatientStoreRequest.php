@@ -32,7 +32,7 @@ class PatientStoreRequest extends FormRequest
             'photo' => 'string|min:3|max:100',
             'full_name' => '|string|min:10',
             'mother_name' => 'required|string|min:10',
-            'date_of_birth' => 'required|date|after_or_equal:' . now()->subYears(150)->format('Y-m-d'),
+            'date_of_birth' => 'required|date|after_or_equal:' . now()->subYears(150)->format('Y-m-d').'|before:' . now()->format('Y-m-d'),
             'cpf' => ['required','string','unique:patients',new CpfRule()],
             'cns' => ['required','string','unique:patients',new CnsRule()],
 
