@@ -4,6 +4,16 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Regra de validação para o CPF (Cadastro de Pessoas Físicas).
+ *
+ * Esta classe implementa a interface Rule do Laravel e define a lógica para validar se um número de CPF é válido.
+ * O número de CPF é validado de acordo com o algoritmo de cálculo do dígito verificador.
+ * A validação inclui verificação do formato do CPF, cálculo e validação dos dígitos verificadores.
+ *
+ * @category Classe
+ * @package  App\Rules
+ */
 class CPF implements Rule
 {
     /**

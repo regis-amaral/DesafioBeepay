@@ -4,6 +4,18 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Regra de validação para o CNS (Cartão Nacional de Saúde).
+ *
+ * Esta classe implementa a interface Rule do Laravel e define a lógica para validar se um número CNS é válido.
+ * O número CNS é validado de acordo com as regras estabelecidas pelo Ministério da Saúde do Brasil.
+ * A validação inclui verificação do formato do CNS, verificação do dígito verificador e validação do formato
+ * dependendo do número inicial (1, 2 para números de indivíduos ou 7, 8, 9 para outros casos).
+ * Algoritmo base: https://integracao.esusab.ufsc.br/ledi/documentacao/regras/algoritmo_CNS.html
+ *
+ * @category Classe
+ * @package  App\Rules
+ */
 class CNS implements Rule
 {
     /**

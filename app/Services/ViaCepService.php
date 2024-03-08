@@ -7,6 +7,17 @@ use GuzzleHttp\Client;
 use App\Adapters\CepServiceInterface;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * Implementação do serviço de busca de CEP utilizando a API do ViaCEP.
+ *
+ * Esta classe implementa a interface CepServiceInterface e fornece um método para buscar informações de um CEP
+ * específico utilizando a API do ViaCEP. Os resultados da busca são armazenados em cache por 1 hora para melhor
+ * desempenho e eficiência. Se ocorrer um erro durante a consulta, uma exceção será lançada para lidar com o erro
+ * de forma adequada.
+ *
+ * @category Classe
+ * @package  App\Services
+ */
 class ViaCepService implements CepServiceInterface
 {
     protected $client;
