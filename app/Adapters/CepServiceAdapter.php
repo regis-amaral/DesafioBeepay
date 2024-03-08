@@ -2,6 +2,8 @@
 
 namespace App\Adapters;
 
+use App\Services\ViaCepService;
+
 /**
  * Adaptador para o serviço de busca de CEP.
  *
@@ -24,6 +26,31 @@ class CepServiceAdapter implements CepServiceInterface
 
     public function searchCep(string $cep): array
     {
-        return $this->cepService->searchCep($cep);
+        $cepData = $this->cepService->searchCep($cep);
+        return $this->adaptCepData($cepData);
     }
+
+    /**
+     * Método para adaptar a estrutura de retorno de diferentes serviços
+     * @param array $cepData
+     * @return array
+     */
+    public function adaptCepData(array $cepData): array
+    {
+        // API Via Cep
+        if ($this->cepService instanceof ViaCepService) {
+            return [
+                'cep' => $cepData['cep'],
+                'street' => $cepData['logradouro'],
+                'complement' => $cepData['complemento'] ?? '',
+                'neighborhood' => $cepData['bairro'],
+                'city' => $cepData['localidade'],
+                'state' => $cepData['uf'],
+            ];
+        }
+
+        // retorna os dados sem adaptação
+        return $cepData;
+    }
+
 }
