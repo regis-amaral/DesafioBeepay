@@ -5,8 +5,24 @@ namespace App\Http\Requests\Validation;
 use App\Rules\CNS;
 use App\Rules\CPF;
 
+/**
+ * Define as regras de validação comuns para requisições de inserção e atualização de pacientes.
+ *
+ * Esta classe contém métodos estáticos que retornam um array associativo contendo as regras de validação
+ * comuns para a inserção e atualização de pacientes. Inclui validações para campos como foto, nome completo,
+ * nome da mãe, data de nascimento, endereço, etc. As regras são definidas como métodos estáticos para
+ * facilitar o acesso e reutilização em outras partes do código.
+ *
+ * @category Classe
+ * @package  App\Http\Requests\Validation
+ */
 class ValidationPatientRules
 {
+    /**
+     * Retorna as regras de validação comuns para requisições relacionadas a pacientes.
+     *
+     * @return array Um array associativo contendo as regras de validação.
+     */
     public static function patientRequestRules(): array
     {
         return [

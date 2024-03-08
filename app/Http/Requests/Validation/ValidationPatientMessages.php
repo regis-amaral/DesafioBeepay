@@ -5,8 +5,23 @@ namespace App\Http\Requests\Validation;
 use App\Rules\CNS;
 use App\Rules\CPF;
 
+/**
+ * Define mensagens de validação comuns para requisições de inserção e atualização de pacientes.
+ *
+ * Esta classe contém método estático que retorna um array associativo contendo mensagens de validação
+ * para campos específicos em requisições relacionadas a pacientes. As mensagens são definidas de forma a
+ * fornecer feedback claro ao usuário sobre os problemas de validação encontrados durante a submissão dos dados.
+ *
+ * @category Classe
+ * @package  App\Http\Requests\Validation
+ */
 class ValidationPatientMessages
 {
+    /**
+     * Retorna as mensagens de validação comuns para requisições relacionadas a pacientes.
+     *
+     * @return array Um array associativo contendo as mensagens de validação.
+     */
     public static function patientRequestMessages(): array
     {
         return [

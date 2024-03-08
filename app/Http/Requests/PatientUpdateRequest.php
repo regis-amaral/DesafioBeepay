@@ -10,6 +10,16 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+/**
+ * Classe para lidar com a validação de dados ao atualizar um paciente existente.
+ *
+ * Esta classe estende a classe FormRequest do Laravel e é usada para validar
+ * os dados fornecidos ao atualizar um paciente existente. Ela define as regras de validação
+ * para os campos do paciente que podem ser atualizados, como nome, data de nascimento, CPF, CNS, etc.
+ *
+ * @category Classe
+ * @package  App\Http\Requests
+ */
 class PatientUpdateRequest extends FormRequest
 {
     /**
