@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Validation;
+namespace App\Services;
 
-use App\Rules\CNS;
-use App\Rules\CPF;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Define as regras de validação comuns para requisições de inserção e atualização de pacientes.
@@ -16,14 +15,22 @@ use App\Rules\CPF;
  * @category Classe
  * @package  App\Http\Requests\Validation
  */
-class ValidationPatientRules
+class PatientValidationService
 {
-    /**
-     * Retorna as regras de validação comuns para requisições relacionadas a pacientes.
-     *
-     * @return array Um array associativo contendo as regras de validação.
-     */
-    public static function patientRequestRules(): array
+
+    public static function validateData(array $data): array
+    {
+        $validator = Validator::make($data, PatientValidationService::getRules());
+
+        if ($validator->fails()) {
+            throw new \InvalidArgumentException($validator->errors()->first());
+        }
+
+        return $data;
+    }
+
+
+    public static function getRules():array
     {
         return [
             'photo' => 'string|url',
