@@ -7,6 +7,9 @@ class ValidationMessages
     public static function patientRequestMessages(): array
     {
         return [
+            'photo.string' => 'O campo foto deve ser uma string',
+            'photo.url' => 'O campo foto deve ser uma url válida',
+
             'full_name.required' => 'O nome completo é obrigatório',
             'full_name.string' => 'O nome completo precisa ser uma string',
             'full_name.min' => 'O nome completo precisa ter no mínimo 10 caracteres',
