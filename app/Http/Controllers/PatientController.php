@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientStoreRequest;
 use App\Http\Resources\PatientResource;
 use App\Models\Address;
 use App\Models\Patient;
@@ -34,16 +35,15 @@ class PatientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param PatientStoreRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(PatientStoreRequest $request)
     {
 
         DB::beginTransaction();
         try{
             $patient = new Patient();
-            $patient->fill($request->all());
             $patient->save();
 
             $address = new Address();
@@ -78,25 +78,23 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param PatientStoreRequest $request
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(PatientStoreRequest $request, $id)
     {
         DB::beginTransaction();
         try{
             $patient = Patient::find($id);
-
             if (!$patient) {
                 return response()->json(['error' => 'Paciente não encontrado'], 404);
             }
-
-            $patient->fill($request->all());
+            $patient->fill();
             $patient->save();
 
             if (isset($request->address)) {
-                $address = Address::updateOrCreate(
+                Address::updateOrCreate(
                     ['patient_id' => $patient->id],
                     $request->address
                 );
