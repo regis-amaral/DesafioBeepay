@@ -43,12 +43,10 @@ class ValidationPatientMessages
 
             'cpf.required' => 'O campo CPF é obrigatório.',
             'cpf.string' => 'O campo CPF deve ser uma string.',
-            'cpf.cpf' => 'O campo CPF deve ser um CPF válido.',
             'cpf.unique' => 'Este CPF já está em uso.',
 
             'cns.required' => 'O campo CNS é obrigatório.',
             'cns.string' => 'O campo CNS deve ser uma string.',
-            'cns.cns' => 'O campo CNS deve ser um CNS válido.',
             'cns.unique' => 'Este CNS já está em uso.',
 
             'address' => 'O campo de endereço é obrigatório quando fornecido.',
