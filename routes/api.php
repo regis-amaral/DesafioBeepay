@@ -21,16 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/patients', [PatientController::class, 'index'])->name('list_all_patients');
 
-Route::get('/patients/{id}', [PatientController::class, 'show'])->name('show_patient');
+Route::get('/patients/{id}', [PatientController::class, 'show'])->where('id', '[0-9]+')->name('show_patient');
 
 Route::post('/patients/create', [PatientController::class, 'create'])->name('create_patient');
 
-Route::put('/patients/{id}/update', [PatientController::class, 'update'])->name('update_patient');
+Route::put('/patients/{id}/update', [PatientController::class, 'update'])->where('id', '[0-9]+')->name('update_patient');
 
-Route::delete('/patients/{id}/delete', [PatientController::class, 'delete'])->name('delete_patient');
+Route::delete('/patients/{id}/delete', [PatientController::class, 'delete'])->where('id', '[0-9]+')->name('delete_patient');
 
-Route::get('/search-cep/{cep}', [CepController::class, 'searchCep']);
+Route::get('/search-cep/{cep}', [CepController::class, 'searchCep'])->where('id', '[0-9]+');
 
 Route::post('/patients/upload-csv', [PatientController::class, 'uploadCsv']);
 
-Route::get('/patients/search', [PatientController::class, 'search'])->name('search_search');
+Route::get('/patients/search', [PatientController::class, 'search'])->name('search_patient');
