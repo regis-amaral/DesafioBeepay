@@ -35,22 +35,26 @@ class CepServiceAdapter implements CepServiceInterface
      * @param array $cepData
      * @return array
      */
-    public function adaptCepData(array $cepData): array
+    private function adaptCepData(array $cepData): array
     {
         // API Via Cep
         if ($this->cepService instanceof ViaCepService) {
-            return [
-                'cep' => $cepData['cep'],
-                'street' => $cepData['logradouro'],
-                'complement' => $cepData['complemento'] ?? '',
-                'neighborhood' => $cepData['bairro'],
-                'city' => $cepData['localidade'],
-                'state' => $cepData['uf'],
-            ];
+            return $this->adaptViaCep($cepData);
         }
 
         // retorna os dados sem adaptação
         return $cepData;
     }
 
+    private function adaptViaCep(array $cepData): array
+    {
+        return [
+            'cep' => $cepData['cep'],
+            'street' => $cepData['logradouro'],
+            'complement' => $cepData['complemento'] ?? '',
+            'neighborhood' => $cepData['bairro'],
+            'city' => $cepData['localidade'],
+            'state' => $cepData['uf'],
+        ];
+    }
 }
