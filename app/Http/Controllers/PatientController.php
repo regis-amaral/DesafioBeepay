@@ -30,20 +30,20 @@ class PatientController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        $patients = Patient::paginate(2);
+        $patients = Patient::paginate($request->per_page ?? 2);
 
         return response()->json(new PatientCollection($patients));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a newly created resource in storage.
      *
      * @param PatientStoreRequest $request
      * @return JsonResponse
      */
-    public function store(PatientStoreRequest $request): JsonResponse
+    public function create(PatientStoreRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try{
@@ -74,10 +74,14 @@ class PatientController extends Controller
     public function show($id): JsonResponse
     {
         $patient = Cache::remember('patient_'.$id, 3600, function () use ($id) {
-            return Patient::findOrFail($id);
+            return Patient::find($id);
         });
 
-        return response()->json(new PatientResource($patient));
+        if($patient){
+            return response()->json(new PatientResource($patient));
+        }
+
+        return response()->json(['message' => "Não encontrado"], 404);
     }
 
     /**
@@ -123,7 +127,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return void
      */
-    public function destroy($id): void
+    public function delete($id): void
     {
         $patient = Patient::find($id);
 
