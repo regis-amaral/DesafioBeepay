@@ -27,7 +27,7 @@ class AddressFactory extends Factory
             'cep' => $this->faker->randomNumber(8),
             'street' => $this->faker->streetAddress,
             'number' => $this->faker->buildingNumber,
-            'complement' => $this->faker->optional()->secondaryAddress,
+            'complement' => $this->faker->secondaryAddress,
             'neighborhood' => $this->faker->citySuffix,
             'city' => $this->faker->city,
             'state' => $this->faker->stateAbbr

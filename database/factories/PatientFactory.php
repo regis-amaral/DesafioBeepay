@@ -26,11 +26,12 @@ class PatientFactory extends Factory
     public function definition()
     {
         return [
+            'photo' => 'https://picsum.photos/2' . rand(10,99),
             'full_name' => $this->faker->name(),
             'mother_name' => $this->faker->name(gender: 'female'),
             'date_of_birth' => $this->faker->dateTimeBetween('-100 years', 'now', null),
             'cpf' => $this->faker->unique()->cpf(),
-            'cns' => $this->faker->unique()->buildingNumber()
+            'cns' => CNSGenerator::generate()
         ];
     }
 
