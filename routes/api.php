@@ -25,3 +25,4 @@ Route::get('/search-cep/{cep}', [CepController::class, 'searchCep']);
 
 Route::post('/patients/upload-csv', [PatientController::class, 'uploadCsv']);
 
+Route::get('search', [PatientController::class, 'search']);
