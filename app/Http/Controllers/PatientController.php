@@ -6,7 +6,6 @@ use App\Http\Requests\PatientStoreRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\PatientCollection;
 use App\Http\Resources\PatientResource;
-use App\Http\Resources\PatientSearchCollection;
 use App\Jobs\ProcessPatientsCsvJob;
 use App\Models\Address;
 use App\Models\Patient;
@@ -32,8 +31,16 @@ class PatientController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $patients = Patient::paginate($request->per_page ?? 2);
+        $cacheKey = 'search_' . md5(json_encode($request->all()));
 
+        // armazena a busca em cache por 10 min
+        $patients = Cache::remember($cacheKey, 600, function () use ($request) {
+            return Patient::paginate($request->per_page ?? 10);
+        });
+
+        if ($patients->isEmpty()) {
+            return response()->json(['error' => 'Nenhum paciente encontrado.'], 404);
+        }
         return response()->json(new PatientCollection($patients));
     }
 
@@ -77,11 +84,11 @@ class PatientController extends Controller
             return Patient::find($id);
         });
 
-        if($patient){
-            return response()->json(new PatientResource($patient));
+        if(!$patient){
+            return response()->json(['message' => "Paciente não encontrado."], 404);
         }
 
-        return response()->json(['message' => "Não encontrado"], 404);
+        return response()->json(new PatientResource($patient));
     }
 
     /**
@@ -97,7 +104,7 @@ class PatientController extends Controller
         try{
             $patient = Patient::find($id);
             if (!$patient) {
-                return response()->json(['error' => 'Paciente não encontrado'], 404);
+                return response()->json(['error' => 'Paciente não encontrado.'], 404);
             }
             $patient->fill($request->all());
             $patient->save();
@@ -133,10 +140,10 @@ class PatientController extends Controller
 
         if($patient){
             $patient->delete();
+            // Remove o paciente do cache
+            Cache::forget('patient_' . $id);
         }
 
-        // Remove o paciente do cache
-        Cache::forget('patient_' . $id);
     }
 
     /**
@@ -168,68 +175,70 @@ class PatientController extends Controller
      * Pesquisa por pacientes com base em vários critérios.
      *
      * Este método pesquisa pacientes com base em critérios como nome completo, nome da mãe, CPF, CNS e endereço.
-     * Ele aceita os seguintes parâmetros de consulta:
-     * - full_name: Pesquisa pacientes pelo nome completo (correspondência parcial).
-     * - mother_name: Pesquisa pacientes pelo nome da mãe (correspondência parcial).
-     * - cpf: Pesquisa pacientes pelo CPF.
-     * - cns: Pesquisa pacientes pelo CNS.
-     * - address: Pesquisa pacientes pelos atributos de endereço (cep, rua, número, bairro, cidade, estado).
+     * Regras:
+     * 1) Se CPF ou CNS for informado pesquisa apenas com base em um desses campos, ignorando os demais parametros;
+     * 2) Busca pelo nome do paciente e/ou nome da mãe do paciente, aceitando nome parcial na busca;
+     * 3) Busca pelo endereço com base em todos os parametros de endereço informados.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function search(Request $request)
     {
-        $query = Patient::query()->join('addresses', 'patients.id', '=', 'addresses.patient_id');
+        $cacheKey = 'search_' . md5(json_encode($request->all()));
 
-        if(isset($request->cpf) || isset($request->cns)){
-            $query->where(function ($query) use ($request) {
-                if (isset($request->cpf)) {
-                    $query->orWhere('cpf', $request->cpf);
+        // armazena a busca em cache por 10 min
+        $patients = Cache::remember($cacheKey, 600, function () use ($request) {
+            return Patient::where(function ($query) use ($request) {
+                // Retorna por CPF ou CNS caso informado
+                if(isset($request->cpf) || isset($request->cns)){
+                    if (isset($request->cpf)) {
+                        $query->orWhere('cpf', $request->cpf);
+                    }
+                    if (isset($request->cns)) {
+                        $query->orWhere('cns', $request->cns);
+                    }
+                }else{
+                    // Se não busca pelo nome do paciente, nome da mãe do paciente e/ou endereço
+                    if (isset($request->full_name)) {
+                        $query->where('full_name', 'LIKE', '%' . $request->full_name . '%');
+                    }
+
+                    if (isset($request->mother_name)) {
+                        $query->where('mother_name', 'LIKE', '%' . $request->mother_name . '%');
+                    }
+
+                    // A busca por endereço deve corresponder a todos os campos que forem informados
+                    if(count(array_intersect_key($request->keys(), ['cep', 'street', 'number', 'neighborhood', 'city', 'state'])) > 0){
+                        $query->whereHas('address', function ($query) use ($request){
+                            if (isset($request->cep)) {
+                                $query->where('addresses.cep', $request->cep);
+                            }
+                            if (isset($request->street)) {
+                                $query->where('addresses.street', 'LIKE', '%' . $request->street . '%');
+                            }
+                            if (isset($request->number)) {
+                                $query->where('addresses.number', $request->number);
+                            }
+                            if (isset($request->neighborhood)) {
+                                $query->where('addresses.neighborhood', 'LIKE', '%' . $request->neighborhood . '%');
+                            }
+                            if (isset($request->city)) {
+                                $query->where('addresses.city', 'LIKE', '%' . $request->city . '%');
+                            }
+                            if (isset($request->state)) {
+                                $query->where('addresses.state', $request->state);
+                            }
+                        });
+                    }
                 }
-                if (isset($request->cns)) {
-                    $query->orWhere('cns', $request->cns);
-                }
-            });
-        }else{
-            $query->where(function ($query) use ($request) {
-                if (isset($request->full_name)) {
-                    $query->orWhere('full_name', 'LIKE', '%' . $request->full_name . '%');
-                }
+            })->paginate($request->per_page ?? 10);
+        });
 
-                if (isset($request->mother_name)) {
-                    $query->orWhere('mother_name', 'LIKE', '%' . $request->mother_name . '%');
-                }
-
-
-                $query->orWhere(function ($query) use ($request) {
-
-                    if (isset($request->cep)) {
-                        $query->where('addresses.cep', $request->cep);
-                    }
-                    if (isset($request->street)) {
-                        $query->where('addresses.street', 'LIKE', '%' . $request->street . '%');
-                    }
-                    if (isset($request->number)) {
-                        $query->where('addresses.number', $request->number);
-                    }
-                    if (isset($request->neighborhood)) {
-                        $query->where('addresses.neighborhood', 'LIKE', '%' . $request->neighborhood . '%');
-                    }
-                    if (isset($request->city)) {
-                        $query->where('addresses.city', 'LIKE', '%' . $request->city . '%');
-                    }
-                    if (isset($request->state)) {
-                        $query->where('addresses.state', $request->state);
-                    }
-                });
-
-            });
+        if ($patients->isEmpty()) {
+            return response()->json(['error' => 'Nenhum paciente encontrado.'], 404);
         }
 
-        $patients = $query->paginate(2);
-
-
-        return response()->json(new PatientSearchCollection($patients));
+        return response()->json(new PatientCollection($patients));
     }
 }
