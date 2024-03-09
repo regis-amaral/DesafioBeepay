@@ -26,6 +26,11 @@ class PatientResource extends JsonResource
             'address' => (new AddressResource($this->address)),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'links' => [
+                'show' => route('patients.show', ['patient' => $this->id]),
+                'delete' => route('patients.destroy', ['patient' => $this->id]),
+                'update' => route('patients.update', ['patient' => $this->id])
+            ],
         ];
     }
 }

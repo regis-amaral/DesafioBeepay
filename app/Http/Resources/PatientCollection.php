@@ -17,6 +17,7 @@ class PatientCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'links' => [
+                'create' => route('patients.store'),
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),
                 'prev' => $this->previousPageUrl(),
