@@ -25,12 +25,17 @@ class AddressFactory extends Factory
     {
         return [
             'cep' => $this->faker->randomNumber(8),
-            'street' => $this->faker->streetAddress,
+            'street' => str_replace(',', '', $this->faker->streetAddress),
             'number' => $this->faker->buildingNumber,
-            'complement' => $this->faker->secondaryAddress,
-            'neighborhood' => $this->faker->citySuffix,
+            'complement' => str_replace(',', '', $this->faker->secondaryAddress),
+            'neighborhood' => str_replace(',', '', $this->faker->citySuffix),
             'city' => $this->faker->city,
             'state' => $this->faker->stateAbbr
         ];
+    }
+
+    protected function withFaker()
+    {
+        return \Faker\Factory::create('pt_BR');
     }
 }
