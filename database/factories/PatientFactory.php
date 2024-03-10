@@ -41,4 +41,9 @@ class PatientFactory extends Factory
             $patient->address()->save(Address::factory()->make());
         });
     }
+
+    protected function withFaker()
+    {
+        return \Faker\Factory::create('pt_BR');
+    }
 }
