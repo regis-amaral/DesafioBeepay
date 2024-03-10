@@ -158,9 +158,22 @@ class PatientController extends Controller
      */
     public function uploadCsv(Request $request): JsonResponse
     {
-        $request->validate([
-            'csv_file' => 'required|mimes:csv,txt|max:2048', // Assuming max file size is 2MB
-        ]);
+        // Verificar se o arquivo foi enviado
+        if (!$request->hasFile('csv_file')) {
+            return response()->json(['error' => 'Nenhum arquivo foi enviado.'], 400);
+        }
+
+        // Verificar se o arquivo é um CSV válido
+        $file = $request->file('csv_file');
+        if (!$file->isValid() || !in_array($file->getClientOriginalExtension(), ['csv', 'txt'])) {
+            return response()->json(['error' => 'O arquivo enviado não é um CSV válido.'], 400);
+        }
+
+        // Verificar o tamanho do arquivo
+        if ($file->getSize() > 10 * 1024 * 1024) { // 10MB
+            return response()->json(['error' => 'O tamanho do arquivo excede o limite máximo permitido.'], 400);
+        }
+
 
         // Salva o arquivo CSV e obtém o caminho do arquivo
         $filePath = $request->file('csv_file')->store('csv_files');
