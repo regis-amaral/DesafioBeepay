@@ -64,6 +64,7 @@ class PatientController extends Controller
             $address->save();
 
             DB::commit();
+            Cache::put('patient_'.$patient->id, $patient, 3600);
             return response()->json(['message' => 'Paciente criado com sucesso', 'data' => new PatientResource($patient)], 201);
 
         } catch (\Exception $e) {
@@ -132,9 +133,9 @@ class PatientController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return void
+     * @return JsonResponse
      */
-    public function delete($id): void
+    public function delete(Request $request, $id): JsonResponse
     {
         $patient = Patient::find($id);
 
@@ -142,8 +143,10 @@ class PatientController extends Controller
             $patient->delete();
             // Remove o paciente do cache
             Cache::forget('patient_' . $id);
+            return response()->json([], 204);
+        } else {
+            return response()->json(['error' => 'Paciente não encontrado.'], 404);
         }
-
     }
 
     /**
@@ -173,7 +176,6 @@ class PatientController extends Controller
         if ($file->getSize() > 10 * 1024 * 1024) { // 10MB
             return response()->json(['error' => 'O tamanho do arquivo excede o limite máximo permitido.'], 400);
         }
-
 
         // Salva o arquivo CSV e obtém o caminho do arquivo
         $filePath = $request->file('csv_file')->store('csv_files');
