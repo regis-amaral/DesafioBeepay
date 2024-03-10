@@ -17,8 +17,8 @@ class AddressTest extends TestCase
         // Cria um paciente para associar ao endereço
         $patient = Patient::factory()->create();
 
-        // Cria um endereço associado ao paciente
-        $address = Address::factory()->create([
+        $address = new Address();
+        $address->fill([
             'cep' => '75099009',
             'street' => 'Travessa Godói, 5680',
             'number' => '5',
@@ -38,6 +38,7 @@ class AddressTest extends TestCase
         $this->assertEquals('do Leste', $address->neighborhood);
         $this->assertEquals('Santa Marcelo', $address->city);
         $this->assertEquals('AL', $address->state);
+        $this->assertEquals($patient->id, $address->patient_id);
     }
 
     /** @test */
