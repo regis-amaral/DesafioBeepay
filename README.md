@@ -98,3 +98,11 @@ ___
 ```
 
 Abra o arquivo ```./coverage-report/index.html``` com um navegador para visualizar o relatório.
+
+___
+
+### Documentação de Utilização
+
+A documentação de utilização da API pode ser acessa no seguinte link:
+
+https://documenter.getpostman.com/view/4127772/2sA2xh4DsU#9de05096-2f91-4ce0-b930-1bde5420e7be
