@@ -1,32 +1,40 @@
 ## Desafio Beepay
 
-### Requisitos 
+Esta Api é foi desenvolvida para o desafio de programação criado pela empresa Beepay. O objetivo do desafio consite em desenvolver um cadastro de paciente, do qual possa ser testada a capacidade de criação de arquitetura, qualidade de código, validações e usabilidade.
 
-Para rodar o projeto é necessário ter os seguintes aplicativos instalados e atualizados:
+Acesse a documentação de utilização no seguinte link:
+
+https://documenter.getpostman.com/view/4127772/2sA2xh4DsU#9de05096-2f91-4ce0-b930-1bde5420e7be
+
+## Requisitos 
+
+Para instalar o projeto é necessário ter os seguintes aplicativos instalados e atualizados:
 - Docker ^25.0.3
 - Docker-compose ^2.24.6
 - Composer ^2.7.1
 
-### Instalando o projeto
+## Instalando o projeto
 
-Instalação de dependências
+Execute os seguintes passos:
+
+1º Instalação de dependências
 ```
 composer install
 ```
 
-Crie o arquivo .env com uma cópia do .env.example
+2 º Crie o arquivo .env com uma cópia do .env.example
 ```
 cp .env.example .env
 ```
 
+3º Construção da imagem dos containers
 Use o seguinte comando para construir as imagem dos containers necessários para rodar o projeto:
 ```
 ./vendor/bin/sail build --no-cache
 ```
-___
-## Rodando o projeto
+## Primeira execução
 
-Para rodar o projeto basta executar os seguintes passos:
+A primeira execução do projeto requer que sejam executados os seguintes passos:
 
 1º - Subir os container
 ```
@@ -37,22 +45,45 @@ Para rodar o projeto basta executar os seguintes passos:
 ./vendor/bin/sail artisan key:generate
 ```
 3º - Rodar as migrations
-
-Rode o seguinte comando para criar as tabelas do banco de dados:
 ```
 ./vendor/bin/sail artisan migrate
 ```
 4º - Criar registros falsos no banco de dados
-
 ```
 ./vendor/bin/sail artisan db:seed --class=PatientTableSeeder
 ```
 
+## Executar a aplicação
+
+Para executar a aplicação use o comando:
+
+```
+./vendor/bin/sail up -d
+```
+
+## Comandos úteis:
+
+#### Parar containers: 
+```
+./vendor/bin/sail stop
+```
+#### Acessar linha de comando: 
+```
+./vendor/bin/sail sheel
+```
+ou como root
+```
+./vendor/bin/sail root-shell
+```
+#### Logs em tempo real
+```
+./vendor/bin/sail root-shell -f
+```
+
 Tendo executados com sucesso os passos acima, acesse o endereço [http://localhost]() para verificar se a API está online.
 
-___
 
-### Importação de arquivo .csv com dados de Pacientes
+## Importação de arquivo .csv com dados de Pacientes
 
 Para a importação do arquivo csv com dados de pacientes o sistema obedece a regra de importar todos os dados com sucesso ou nenhum.
 - Utilize como modelo o arquivo .csv localizado na pasta ``./docs/patients.csv``
@@ -64,9 +95,7 @@ No Horizon é possível ver o status das tarefas de importação.
 
 Mensagens indicando os erros individuais de cada registro serão gravadas em um arquivo de log localizado em ``./storage/logs/import.log``.
 
-___
-
-### Laravel Horizon
+## Laravel Horizon
 
 A aplicação conta com o Laravel Horizon para visualizar as tarefas. 
 
@@ -75,18 +104,17 @@ Rode o comando abaixo para ativá-lo:
 ./vendor/bin/sail artisan horizon
 ```
 Acesse em [http://localhost/horizon]().
-___
 
 
-### Testes de Unidade e Funcionalidade
+## Testes de Unidade e Funcionalidade
 
-#### Rodando Tests
+### Rodando Tests
 
 ```
 ./vendor/bin/sail artisan test
 ```
 
-#### Rodando Tests Coverage
+### Rodando Tests Coverage
 
 ```
 ./vendor/bin/sail artisan test --coverage
@@ -97,17 +125,11 @@ Resultado esperado:
 ![image](https://github.com/regis-amaral/DesafioBeepay/assets/118540708/28ccbf07-74f1-4d45-a659-7b624a927b3d)
 
 
-#### Gerar relatório de Test Coverage
+### Gerar relatório de Test Coverage
 ```
 ./vendor/bin/sail phpunit --coverage-html coverage-report
 ```
 
 Abra o arquivo ```./coverage-report/index.html``` com um navegador para visualizar o relatório.
 
-___
 
-### Documentação de Utilização
-
-Acesse a documentação de utilização da API no seguinte link:
-
-https://documenter.getpostman.com/view/4127772/2sA2xh4DsU#9de05096-2f91-4ce0-b930-1bde5420e7be
