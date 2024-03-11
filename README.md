@@ -78,7 +78,7 @@ Acesse em [http://localhost/horizon]().
 ___
 
 
-### Tests
+### Testes de Unidade e Funcionalidade
 
 #### Rodando Tests
 
@@ -94,6 +94,7 @@ ___
 
 Resultado esperado:
 
+![image](https://github.com/regis-amaral/DesafioBeepay/assets/118540708/28ccbf07-74f1-4d45-a659-7b624a927b3d)
 
 
 #### Gerar relatório de Test Coverage
@@ -107,6 +108,6 @@ ___
 
 ### Documentação de Utilização
 
-A documentação de utilização da API pode ser acessa no seguinte link:
+Acesse a documentação de utilização da API no seguinte link:
 
 https://documenter.getpostman.com/view/4127772/2sA2xh4DsU#9de05096-2f91-4ce0-b930-1bde5420e7be
