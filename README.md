@@ -54,6 +54,8 @@ A primeira execução do projeto requer que sejam executados os seguintes passos
 ./vendor/bin/sail artisan db:seed --class=PatientTableSeeder
 ```
 
+Tendo executados com sucesso os passos acima, acesse o endereço [http://localhost]() para verificar se a API está online.
+
 ## Executar a aplicação
 
 Para executar a aplicação use o comando:
@@ -80,8 +82,6 @@ ou como root
 ```
 ./vendor/bin/sail root-shell -f
 ```
-
-Tendo executados com sucesso os passos acima, acesse o endereço [http://localhost]() para verificar se a API está online.
 
 
 ## Importação de arquivo .csv com dados de Pacientes
