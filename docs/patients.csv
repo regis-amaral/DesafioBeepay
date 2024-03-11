@@ -1,5 +1,4 @@
 photo,full_name,mother_name,date_of_birth,cpf,cns,address.cep,address.street,address.number,address.complement,address.neighborhood,address.city,address.state
-https://picsum.photos/201,Regis Amaral,Helen Amaral,1986-07-09,00333472047,907734389430007,97547000,Otto Grankow,314,casa B,Encano,Indaial,RS
 https://picsum.photos/202,José Silva,Ana Moreira Silva,1975-05-15,84539871307,130791287900005,12345000,Rua das Flores,100,apto 101,Centro,Florianópolis,SC
 https://picsum.photos/203,Maria Santos,Sônia Santos,1980-10-20,42576319963,165560134580008,54321000,Rua São Paulo,500,casa C,Jardim Paulista,São Paulo,SP
 https://picsum.photos/204,João Oliveira,Ana Oliveira,1992-03-25,16654336550,194837258720003,65432000,Rua da Paz,200,apto 9 Bloco C,Centro,Rio de Janeiro,RJ
