@@ -1,6 +1,18 @@
 ## Desafio Beepay
 
+### Requisitos 
+
+Para rodar o projeto é necessário ter os seguintes aplicativos instalados e atualizados:
+- Docker ^25.0.3
+- Docker-compose ^2.24.6
+- Composer ^2.7.1
+
 ### Instalando o projeto
+
+Instalação de dependências
+```
+composer install
+```
 
 Crie o arquivo .env com uma cópia do .env.example
 ```
