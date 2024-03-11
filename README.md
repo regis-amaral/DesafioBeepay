@@ -54,7 +54,11 @@ A primeira execução do projeto requer que sejam executados os seguintes passos
 ./vendor/bin/sail artisan db:seed --class=PatientTableSeeder
 ```
 
-Tendo executados com sucesso os passos acima, acesse o endereço [http://localhost]() para verificar se a API está online.
+Tendo executado com sucesso os passos acima, abra o navegador e acesse o endereço http://localhost para verificar se a API está online.
+
+Utilize a documentação do link abaixo para realizar as chamadas pré-configuradas com o Postman:
+
+https://documenter.getpostman.com/view/4127772/2sA2xh4DsU
 
 ## Executar a aplicação
 
