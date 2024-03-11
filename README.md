@@ -92,6 +92,10 @@ ___
 ./vendor/bin/sail artisan test --coverage
 ```
 
+Resultado esperado:
+
+
+
 #### Gerar relatório de Test Coverage
 ```
 ./vendor/bin/sail phpunit --coverage-html coverage-report
