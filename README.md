@@ -1,6 +1,6 @@
 ## Desafio Beepay
 
-Esta Api é foi desenvolvida para o desafio de programação criado pela empresa Beepay. O objetivo do desafio consite em desenvolver um cadastro de paciente, do qual possa ser testada a capacidade de criação de arquitetura, qualidade de código, validações e usabilidade.
+Esta Api é foi desenvolvida para o desafio de programação criado pela empresa Beepay. O objetivo do desafio consiste em desenvolver um cadastro de paciente, do qual possa ser testada a capacidade de criação de arquitetura, qualidade de código, validações e usabilidade.
 
 Acesse a documentação de utilização no seguinte link:
 
