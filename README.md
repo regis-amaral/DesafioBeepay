@@ -64,26 +64,6 @@ Para executar a aplicação use o comando:
 ./vendor/bin/sail up -d
 ```
 
-## Comandos úteis:
-
-#### Parar containers: 
-```
-./vendor/bin/sail stop
-```
-#### Acessar linha de comando: 
-```
-./vendor/bin/sail sheel
-```
-ou como root
-```
-./vendor/bin/sail root-shell
-```
-#### Logs em tempo real
-```
-./vendor/bin/sail root-shell -f
-```
-
-
 ## Importação de arquivo .csv com dados de Pacientes
 
 Para a importação do arquivo csv com dados de pacientes o sistema obedece a regra de importar todos os dados com sucesso ou nenhum.
@@ -133,4 +113,21 @@ Resultado esperado:
 
 Abra o arquivo ```./coverage-report/index.html``` com um navegador para visualizar o relatório.
 
+## Comandos úteis:
 
+#### Parar containers: 
+```
+./vendor/bin/sail stop
+```
+#### Acessar linha de comando: 
+```
+./vendor/bin/sail sheel
+```
+ou como root
+```
+./vendor/bin/sail root-shell
+```
+#### Logs em tempo real
+```
+./vendor/bin/sail root-shell -f
+```
