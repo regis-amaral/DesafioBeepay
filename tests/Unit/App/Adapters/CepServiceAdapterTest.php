@@ -51,6 +51,7 @@ class CepServiceAdapterTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /** @test */
     public function testAdaptCepDataReturnsOriginalData()
     {
         // Mock do serviço de busca de CEP

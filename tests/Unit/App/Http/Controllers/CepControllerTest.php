@@ -15,7 +15,7 @@ class CepControllerTest extends TestCase
     /** @test */
     public function testAddressCanBeRetrieved()
     {
-        $cep = '97547-000';
+        $cep = '97547000';
         $addressData = [
             'cep' => '97547-000',
             'street' => 'Avenida República Riograndense',
@@ -35,8 +35,8 @@ class CepControllerTest extends TestCase
     /** @test */
     public function testErrorResponseIsReturnedWhenCepServiceThrowsException()
     {
-        $cep = '12345678';
-        $errorMessage = 'Erro ao consultar o CEP';
+        $cep = '12345679';
+        $errorMessage = 'Cep não encontrado.';
 
         $controller = new CepController();
         $response = $controller->searchCep($cep);
