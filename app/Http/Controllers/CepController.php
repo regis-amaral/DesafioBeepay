@@ -17,11 +17,11 @@ class CepController extends Controller
 
     public function searchCep($cep)
     {
-        try {
+        try{
             $address = $this->cepAdapter->searchCep($cep);
-            return response()->json($address);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao consultar o CEP'], 500);
+        }catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
+        return response()->json($address);
     }
 }
