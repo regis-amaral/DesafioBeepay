@@ -88,7 +88,7 @@ Rode o comando abaixo para ativá-lo:
 ```
 ./vendor/bin/sail artisan horizon
 ```
-Acesse em [http://localhost/horizon]().
+Acesse em http://localhost/horizon
 
 
 ## Testes de Unidade e Funcionalidade
