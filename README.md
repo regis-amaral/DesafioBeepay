@@ -24,47 +24,59 @@ Use o seguinte comando para construir as imagem dos containers necessários para
 ./vendor/bin/sail build --no-cache
 ```
 ___
-### Rodando o projeto
+## Rodando o projeto
 
-Para rodar o projeto basta executar o seguinte comando:
+Para rodar o projeto basta executar os seguintes passos:
+
+1º - Subir os container
 ```
-./vendor/bin/sail up -d && artisan horizon
+./vendor/bin/sail up -d
 ```
-Após iniciado acesse [http://localhost]() para verificar se a API está online.
-___
-### Rodando migrations e seeders
+2º - Gerar app key
+```
+./vendor/bin/sail artisan key:generate
+```
+3º - Rodar as migrations
 
 Rode o seguinte comando para criar as tabelas do banco de dados:
 ```
 ./vendor/bin/sail artisan migrate
 ```
-Para inserir registros falsos rode o seguinte comando:
+4º - Criar registros falsos no banco de dados
+
 ```
 ./vendor/bin/sail artisan db:seed --class=PatientTableSeeder
 ```
-____
+
+Tendo executados com sucesso os passos acima, acesse o endereço [http://localhost]() para verificar se a API está online.
+
+___
+
+### Importação de arquivo .csv com dados de Pacientes
+
+Para a importação do arquivo csv com dados de pacientes o sistema obedece a regra de importar todos os dados com sucesso ou nenhum.
+- Utilize como modelo o arquivo .csv localizado na pasta ``./docs/patients.csv``
+- Para gerar CNS válido utilize https://geradornv.com.br/gerador-cns
+- Para gerar CPF válido utilize https://www.geradordecpf.org
+
+Caso algum registro não passe na validação de dados a importação será abortada.
+No Horizon é possível ver o status das tarefas de importação.
+
+Mensagens indicando os erros individuais de cada registro serão gravadas em um arquivo de log localizado em ``./storage/logs/import.log``.
+
+___
 
 ### Laravel Horizon
 
-Use o Laravel Horizon para visualizar tarefas executando o seguinte comando:
+A aplicação conta com o Laravel Horizon para visualizar as tarefas. 
+
+Rode o comando abaixo para ativá-lo:
 ```
 ./vendor/bin/sail artisan horizon
 ```
 Acesse em [http://localhost/horizon]().
 ___
 
-### Importação de arquivo .csv com dados de Pacientes
-
-Para a importação do arquivo csv com dados de pacientes implementei uma regra para importar todos ou nenhum.
-
-- Utilize como modelo o arquivo .csv localizado na pasta ``./docs/patients.csv``
-- Para gerar CNS válido utilize https://geradornv.com.br/gerador-cns
-- Para gerar CPF válido utilize https://www.geradordecpf.org
-
-Caso algum registro não passe na validação de dados a importação será abortada.
-Mensagens indicando os erros serão gravadas em um arquivo de log localizado em ``./storage/logs/import.log``.
-
-___
 
 ### Tests
 
