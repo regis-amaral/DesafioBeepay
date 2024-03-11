@@ -28,6 +28,7 @@ cp .env.example .env
 ```
 
 3º Construção da imagem dos containers
+
 Use o seguinte comando para construir as imagem dos containers necessários para rodar o projeto:
 ```
 ./vendor/bin/sail build --no-cache
@@ -36,7 +37,7 @@ Use o seguinte comando para construir as imagem dos containers necessários para
 
 A primeira execução do projeto requer que sejam executados os seguintes passos:
 
-1º - Subir os container
+1º - Subir os containers
 ```
 ./vendor/bin/sail up -d
 ```
