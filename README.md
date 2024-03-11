@@ -4,7 +4,7 @@ Esta Api é foi desenvolvida para o desafio de programação criado pela empresa
 
 Acesse a documentação de utilização no seguinte link:
 
-https://documenter.getpostman.com/view/4127772/2sA2xh4DsU#9de05096-2f91-4ce0-b930-1bde5420e7be
+https://documenter.getpostman.com/view/4127772/2sA2xh4DsU
 
 ## Requisitos 
 
